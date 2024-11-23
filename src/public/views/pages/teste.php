@@ -9,8 +9,8 @@ $teste = new Data();
 $teste->getData();
 
 foreach ($teste->getData() as $key => $value) {
-    echo("TS - " . $value['tempodeservico']);
-    echo("\nTC - " . $value['tempodechegada']);
+    echo("TS - " . $value['serviceTime']);
+    echo("\nTC - " . $value['arrivalTime']);
     echo("<br>");
 }
 

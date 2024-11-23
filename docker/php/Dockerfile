@@ -22,8 +22,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
  
 COPY ./dockerfiles/php/php.ini /usr/local/etc/php/php.ini
 
-RUN composer dump-autoload
-
 WORKDIR /var/www
+
+RUN composer install
+RUN composer dump-autoload
 
 EXPOSE 9000
