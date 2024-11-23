@@ -21,7 +21,11 @@ RUN pecl install -o -f xdebug \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
  
 COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
+COPY ./composer.json /var/www/composer.json
 
 WORKDIR /var/www
+
+RUN composer install --no-dev --optimize-autoloader && \
+    composer dump-autoload -o
 
 EXPOSE 9000
