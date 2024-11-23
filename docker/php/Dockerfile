@@ -20,7 +20,7 @@ RUN pecl install -o -f xdebug \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
  
-COPY ./dockerfiles/php/php.ini /usr/local/etc/php/php.ini
+COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 
 WORKDIR /var/www
 
