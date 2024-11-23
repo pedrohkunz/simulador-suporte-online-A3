@@ -24,7 +24,4 @@ COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 
 WORKDIR /var/www
 
-RUN composer install
-RUN composer dump-autoload
-
 EXPOSE 9000
