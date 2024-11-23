@@ -2,13 +2,13 @@
 
 require '../../../../vendor/autoload.php';
 
-use src\models\Data;
+use src\models\CustomerTickets;
 
-$teste = new Data();
+$teste = new CustomerTickets();
 
-$teste->getData();
+$teste->getCustomerTickets();
 
-foreach ($teste->getData() as $key => $value) {
+foreach ($teste->getCustomerTickets() as $key => $value) {
     echo("TS - " . $value['serviceTime']);
     echo("\nTC - " . $value['arrivalTime']);
     echo("<br>");

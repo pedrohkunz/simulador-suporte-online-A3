@@ -10,6 +10,7 @@ services:
       - "9000:9000"
     volumes:
       - .:/var/www
+      - ./composer.json:/var/www/composer.json
     networks:
       - app-network
     extra_hosts:

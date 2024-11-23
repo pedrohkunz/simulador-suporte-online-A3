@@ -25,7 +25,7 @@ COPY ./composer.json /var/www/composer.json
 
 WORKDIR /var/www
 
-RUN composer install --no-dev --optimize-autoloader && \
-    composer dump-autoload -o
+RUN composer install
+RUN composer dump-autoload
 
 EXPOSE 9000
