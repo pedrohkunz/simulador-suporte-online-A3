@@ -1,0 +1,15 @@
+{
+    "name": "simulador/suporteonline",
+    "authors": [
+        {
+            "name": "pedrokunz"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    }
+}
+
