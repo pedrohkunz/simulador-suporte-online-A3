@@ -2,9 +2,13 @@
 
 require '../../../../vendor/autoload.php';
 use src\models\CustomerServiceSimulator;
-    
-$simulator = new CustomerServiceSimulator($_GET['numberOfAttendants']);
+
+$numberOfAttendants = $_GET['numberOfAttendants'];
+
+$simulator = new CustomerServiceSimulator($numberOfAttendants);
 $resultSimulation = $simulator->runSimulation();
+
+$numberOfAttendants == 1 ? $numberOfAttendants = $numberOfAttendants . ' atendente' : $numberOfAttendants = $numberOfAttendants . ' atendentes';
 
 ?>
 
@@ -20,7 +24,7 @@ $resultSimulation = $simulator->runSimulation();
 <body>
     <div id="mainDiv">
         <section id="titleSection">
-            <h1>Resultado da simulação</h1>
+            <h1>Resultado da simulação com <?= $numberOfAttendants ?> </h1>
         </section>
         <section id="resultsSection">
             <h1>Tempo total de simulação: <span><?= $resultSimulation['simulationTime'] ?> minutos</span> </h1>
