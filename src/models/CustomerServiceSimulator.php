@@ -37,9 +37,9 @@ class CustomerServiceSimulator
         $this->setTotalSimulationTime();
 
         return [
-            'simulationTime' => $this->totalSimulationTime,
-            'averageidleTime' => $this->calculateAverageIdleTime(),
-            'averageWaitTime' => $this->calculateAverageWaitTime()
+            'simulationTime' => $this->formatFloatAsMinutesSeconds($this->totalSimulationTime),
+            'averageidleTime' => $this->formatFloatAsMinutesSeconds($this->calculateAverageIdleTime()),
+            'averageWaitTime' => $this->formatFloatAsMinutesSeconds($this->calculateAverageWaitTime())
         ];
     }
 
@@ -142,5 +142,12 @@ class CustomerServiceSimulator
         $this->totalSimulationTime = array_sum($serviceTimes) + array_sum($this->idleTimes) + array_sum($this->waitTimes);
     }
 
+    function formatFloatAsMinutesSeconds(float $timeInSeconds): string
+    {
+        $minutes = floor($timeInSeconds / 60);
+        $seconds = round($timeInSeconds % 60);
+        
+        return sprintf('%d:%02d', $minutes, $seconds);
+    }
 
 }
