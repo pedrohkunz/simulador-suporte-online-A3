@@ -21,7 +21,7 @@
             </div>
         </article>
     </section>
-    <section id="startButtonSection">
+    <section class="buttonSection">
         <button onclick="startSimulation()">
             Iniciar simulação de atendimento
         </button>

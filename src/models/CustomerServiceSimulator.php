@@ -18,12 +18,10 @@ class CustomerServiceSimulator
 
     public function __construct(int $numberOfAttendants)
     {
-        $this->attendants = AttendantFactory::createAttendants($numberOfAttendants);
-
         $this->dataset = new Dataset();
         $this->customerTicketsQueue = $this->dataset->getCustomerTickets();
 
-        $this->totalSimulationTime = 0;
+        $this->attendants = AttendantFactory::createAttendants($numberOfAttendants);
 
         $this->waitTimes = [];
         $this->idleTimes = [];

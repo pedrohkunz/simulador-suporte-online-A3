@@ -13,11 +13,25 @@ $resultSimulation = $simulator->runSimulation();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Resultado</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <script src="../../assets/js/Simulation.js" defer></script>
 </head>
 <body>
-    <h1>Tempo total de simulação: <?= $resultSimulation['simulationTime'] ?> minutos</h1>
-    <h1>Média de tempo oscioso: <?= $resultSimulation['averageidleTime'] ?> minutos</h1>
-    <h1>Média de tempo de espera: <?= $resultSimulation['averageWaitTime'] ?> minutos</h1>
+    <div id="mainDiv">
+        <section id="titleSection">
+            <h1>Resultado da simulação</h1>
+        </section>
+        <section id="resultsSection">
+            <h1>Tempo total de simulação: <span><?= $resultSimulation['simulationTime'] ?> minutos</span> </h1>
+            <h1>Média de tempo oscioso: <span><?= $resultSimulation['averageidleTime'] ?> minutos</span> </h1>
+            <h1>Média de tempo de espera: <span><?= $resultSimulation['averageWaitTime']?> minutos</span> </h1>
+        </section>
+        <section class="buttonSection">
+            <button onclick="backToHomePage()">
+                Voltar para o inicio
+            </button>
+        </section>
+    </div>
 </body>
 </html>

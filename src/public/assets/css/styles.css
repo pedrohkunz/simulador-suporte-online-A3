@@ -85,7 +85,7 @@ body {
     margin-left: 0.5rem;
 }
 
-#startButtonSection {
+.buttonSection {
     display: flex;
     justify-content: center;
     margin: 5rem;
@@ -114,12 +114,12 @@ body {
 }
 
 
-#startButtonSection>button:hover {
+.buttonSection>button:hover {
     background-color: #0a6d05;
     color: #FFFFFF;
 }
 
-#startButtonSection>button {
+.buttonSection>button {
     padding: 1rem 2rem;
     background-color: #0E9C06;
     color: #FFFFFF;
@@ -128,4 +128,37 @@ body {
     border-radius: 0.8rem;
     font-weight: 500;
     cursor: pointer;
+}
+
+#resultsSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10rem;
+    margin-left: 10rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    background-color: #A97F7F;
+}
+
+#resultsSection>h1 {
+    font-size: 1.5rem;
+    color: #FFF;
+    font-weight: 400;
+    margin: 0.5rem;
+    font-family: 'Roboto', sans-serif;
+}
+
+#resultsSection>h1>span {
+    font-weight: 800;
+}
+
+#mainDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 }
