@@ -46,3 +46,23 @@ const verifyValue = () => {
         alert('O número de atendentes não pode ser menor que 1')
     }
 }
+
+const startSimulation = () => {
+    let input = document.getElementById('numberOfAttendantsValue')
+
+    if(input.value == '') {
+        alert('O número de atendentes não pode ser vazio')
+    }
+
+    let numberOfAttendants = parseInt(input.value)
+    
+    if(numberOfAttendants > 100) {
+        alert('O número de atendentes não pode ser maior que 100')
+    }
+
+    if(numberOfAttendants < 1) {
+        alert('O número de atendentes não pode ser menor que 1')
+    }
+
+    window.location.href = `./Simulation.php?numberOfAttendants=${numberOfAttendants}`;
+}

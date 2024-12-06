@@ -2,9 +2,9 @@
 
 namespace src\models;
 
-class CustomerTickets
+class Dataset
 {
-    private $customerTickets;
+    private array $customerTickets;
 
     public function __construct()
     {
@@ -25,6 +25,11 @@ class CustomerTickets
     public function getCustomerTickets(): array
     {
         return $this->customerTickets;
+    }
+
+    public function getTicketCount(): int
+    {
+        return count($this->customerTickets);
     }
 
 }

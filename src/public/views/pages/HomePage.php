@@ -22,7 +22,7 @@
         </article>
     </section>
     <section id="startButtonSection">
-        <button>
+        <button onclick="startSimulation()">
             Iniciar simulação de atendimento
         </button>
     </section>
