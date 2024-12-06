@@ -8,13 +8,10 @@ use src\models\Dataset;
 class CustomerServiceSimulator
 {
     private Dataset $dataset;
-    private array $customerTicketsQueue; 
-
+    private array $customerTicketsQueue;
     private array $attendants;
-
     private float $totalSimulationTime;
     private array $waitTimes;
-    private array $idleTimes;
 
     public function __construct(int $numberOfAttendants)
     {
@@ -23,24 +20,35 @@ class CustomerServiceSimulator
 
         $this->attendants = AttendantFactory::createAttendants($numberOfAttendants);
 
+        $this->totalSimulationTime = 0;
         $this->waitTimes = [];
-        $this->idleTimes = [];
     }
 
     public function runSimulation(): array
     {
         while (count($this->customerTicketsQueue) > 0 || $this->hasBusyAttendants()) {
+            $this->processQueue();
             $this->updateAttendants();
-            $this->addNewCustomers();
-        }
 
-        $this->setTotalSimulationTime();
+            $this->sumTotalSimulationTime(1);
+        }
 
         return [
             'simulationTime' => $this->formatFloatAsMinutesSeconds($this->totalSimulationTime),
-            'averageidleTime' => $this->formatFloatAsMinutesSeconds($this->calculateAverageIdleTime()),
-            'averageWaitTime' => $this->formatFloatAsMinutesSeconds($this->calculateAverageWaitTime())
+            'averageWaitTime' => $this->formatFloatAsMinutesSeconds($this->calculateAverageWaitTime()),
         ];
+    }
+
+    private function processQueue(): void
+    {
+        foreach ($this->customerTicketsQueue as $key => $customerTicket) {
+            if ($this->hasAvailableAttendants()) {
+                $this->assignCustomerToAttendant($customerTicket);
+                unset($this->customerTicketsQueue[$key]);
+            } else {
+                break;
+            }
+        }
     }
 
     private function updateAttendants(): void
@@ -48,69 +56,37 @@ class CustomerServiceSimulator
         foreach ($this->attendants as $attendant) {
             if ($attendant->isBusy()) {
                 $attendant->setRemainingTime($attendant->getRemainingTime() - 1);
+    
+                if ($attendant->getRemainingTime() <= 0) {
+                    $attendant->setBusy(false);
+                }
             }
         }
-    }
-
-    private function addNewCustomers(): void
-    {
-        foreach ($this->customerTicketsQueue as $key => $customerTicket) {
-            $this->assignCustomerToAttendant($customerTicket);
-
-            $this->addWaitTimeAndIddleTime($customerTicket);
-
-            unset($this->customerTicketsQueue[$key]);
-            
-        }
-    }
-
-    private function addWaitTimeAndIddleTime(array $customerTicket): float
-    {
-        if ($this->hasAvailableAttendants()) {
-            $this->waitTimes[] = 0;
-        }
-        
-        $attendant = $this->getAttendantWithLeastWaitTime();
-
-        if ($attendant->getRemainingTime() < $customerTicket['arrivalTime']) {
-            $this->waitTimes[] = 0;
-            $this->idleTimes[] = $customerTicket['arrivalTime'] - $attendant->getRemainingTime();
-        }
-
-        return $attendant->getRemainingTime() - $customerTicket['arrivalTime'];
-    }
-
-    private function hasAvailableAttendants(): bool
-    {
-        foreach ($this->attendants as $attendant) {
-            if (!$attendant->isBusy()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function getAttendantWithLeastWaitTime(): Attendant
-    {
-        $attendantWithLeastWaitTime = $this->attendants[0];
-        foreach ($this->attendants as $attendant) {
-            if ($attendant->getRemainingTime() < $attendantWithLeastWaitTime->getRemainingTime()) {
-                $attendantWithLeastWaitTime = $attendant;
-            }
-        }
-
-        return $attendantWithLeastWaitTime;
     }
 
     private function assignCustomerToAttendant(array $customerTicket): void
     {
         foreach ($this->attendants as $attendant) {
             if (!$attendant->isBusy()) {
+                $waitTime = max(0, $this->totalSimulationTime - $customerTicket['arrivalTime']);
+                $this->waitTimes[] = $waitTime;
+    
+                $attendant->setBusy(true, $customerTicket['serviceTime']);
                 $attendant->setRemainingTime($customerTicket['serviceTime']);
+                $attendant->setLastEndTime($this->totalSimulationTime + $customerTicket['serviceTime']);
                 return;
             }
         }
+    }
+
+    private function calculateAverageWaitTime(): float
+    {
+        return count($this->waitTimes) > 0 ? array_sum($this->waitTimes) / count($this->waitTimes) : 0;
+    }
+
+    private function sumTotalSimulationTime($value): void
+    {
+        $this->totalSimulationTime += $value;
     }
 
     private function hasBusyAttendants(): bool
@@ -120,34 +96,24 @@ class CustomerServiceSimulator
                 return true;
             }
         }
-
         return false;
     }
 
-    private function calculateAverageIdleTime(): float
+    private function hasAvailableAttendants(): bool
     {
-        return array_sum($this->idleTimes) / count($this->idleTimes);
+        foreach ($this->attendants as $attendant) {
+            if (!$attendant->isBusy()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    private function calculateAverageWaitTime(): float
-    {
-        return array_sum($this->waitTimes) / count($this->waitTimes);
-    }
-
-    private function setTotalSimulationTime()
-    {
-        $originalData = $this->dataset->getCustomerTickets();
-        $serviceTimes = array_column($originalData, 'serviceTime');
-
-        $this->totalSimulationTime = array_sum($serviceTimes) + array_sum($this->idleTimes) + array_sum($this->waitTimes);
-    }
-
-    function formatFloatAsMinutesSeconds(float $timeInSeconds): string
+    private function formatFloatAsMinutesSeconds(float $timeInSeconds): string
     {
         $minutes = (int)floor($timeInSeconds / 60);
         $seconds = (int)round($timeInSeconds % 60);
-        
+
         return sprintf('%d:%02d', $minutes, $seconds);
     }
-
 }

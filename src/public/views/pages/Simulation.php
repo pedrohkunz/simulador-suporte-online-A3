@@ -28,7 +28,6 @@ $numberOfAttendants == 1 ? $numberOfAttendants = $numberOfAttendants . ' atenden
         </section>
         <section id="resultsSection">
             <h1>Tempo total de simulação: <span><?= $resultSimulation['simulationTime'] ?> minutos</span> </h1>
-            <h1>Média de tempo oscioso: <span><?= $resultSimulation['averageidleTime'] ?> minutos</span> </h1>
             <h1>Média de tempo de espera: <span><?= $resultSimulation['averageWaitTime']?> minutos</span> </h1>
         </section>
         <section class="buttonSection">
