@@ -1,6 +1,6 @@
 # Simulador de Suporte Online A3
 
-Este projeto é um simulador de suporte online A3. Abaixo você encontra as instruções detalhadas para instalação e execução do projeto.
+Este projeto é um simulador de suporte online desenvolvido para a UC de Estruturas matemáticas. Abaixo você encontra as instruções detalhadas para instalação e execução do projeto.
 
 ## Pré-requisitos
 
