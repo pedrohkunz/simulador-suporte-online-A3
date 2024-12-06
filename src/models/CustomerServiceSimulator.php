@@ -144,8 +144,8 @@ class CustomerServiceSimulator
 
     function formatFloatAsMinutesSeconds(float $timeInSeconds): string
     {
-        $minutes = floor($timeInSeconds / 60);
-        $seconds = round($timeInSeconds % 60);
+        $minutes = (int)floor($timeInSeconds / 60);
+        $seconds = (int)round($timeInSeconds % 60);
         
         return sprintf('%d:%02d', $minutes, $seconds);
     }
